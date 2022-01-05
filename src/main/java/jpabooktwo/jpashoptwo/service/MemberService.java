@@ -2,20 +2,24 @@ package jpabooktwo.jpashoptwo.service;
 
 import jpabooktwo.jpashoptwo.domain.Member;
 import jpabooktwo.jpashoptwo.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true) //리소스 낭비를 줄이기 위해 read = true 선언
+@RequiredArgsConstructor //스프링 빈에서 필드 인젝션을 해준다.
 public class MemberService {
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     /**
      * 회원가입
      */
+    @Transactional
     public Long join(Member member){
         validateDuplicateMember(member);
         memberRepository.save(member);
@@ -23,8 +27,8 @@ public class MemberService {
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> findByName = memberRepository.findByName(member.getName());
-        if(!findByName.isEmpty()){
+        List<Member> findMembers = memberRepository.findByName(member.getName());
+        if(!findMembers.isEmpty()){
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
     }
