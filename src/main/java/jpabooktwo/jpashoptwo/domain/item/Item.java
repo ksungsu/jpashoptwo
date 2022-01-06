@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Getter
+@Getter @Setter
 public abstract class Item {
 
     @Id @GeneratedValue
@@ -36,4 +36,6 @@ public abstract class Item {
         }
         this.stockQuantity = restStock;
     }
+
+
 }
