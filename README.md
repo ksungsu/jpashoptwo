@@ -1,2 +1,2 @@
 # jpashoptwo
-Jpashoptwo 복습 
+Jpashop2 복습 
